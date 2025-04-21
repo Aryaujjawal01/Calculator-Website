@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Scientific Calculator</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <style>
+    body {
+      background: linear-gradient(135deg, #89f7fe, #66a6ff);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .calculator {
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 20px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 30px;
+      width: 380px;
+      animation: fadeIn 0.6s ease-in-out;
+    }
+
+    .display {
+      height: 60px;
+      background: rgba(255, 255, 255, 0.4);
+      border: none;
+      border-radius: 12px;
+      font-size: 24px;
+      text-align: right;
+      padding: 10px 20px;
+      margin-bottom: 20px;
+      width: 100%;
+      box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .button {
+      width: 70px;
+      height: 70px;
+      margin: 5px;
+      border: none;
+      border-radius: 15px;
+      font-size: 20px;
+      font-weight: 500;
+      color: white;
+      background: linear-gradient(145deg, #43e97b, #38f9d7);
+      transition: transform 0.2s, background 0.2s, box-shadow 0.2s;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    }
+
+    .button:hover {
+      background: linear-gradient(145deg, #38f9d7, #43e97b);
+      transform: scale(1.07);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    .tab-button {
+      width: 48%;
+      margin: 0 1%;
+      padding: 10px;
+      font-weight: bold;
+      border-radius: 10px;
+      border: none;
+      background: linear-gradient(to right, #f7971e, #ffd200);
+      color: #000;
+      transition: all 0.3s ease;
+    }
+
+    .tab-button.active {
+      background: linear-gradient(to right, #ff416c, #ff4b2b);
+      color: white;
+    }
+
+    .row {
+      display: flex;
+      justify-content: center;
+    }
+
+    @keyframes fadeIn {
+      0% {
+        opacity: 0;
+        transform: scale(0.95);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="calculator">
+    <div class="row mb-3">
+      <button class="tab-button active" id="basic-tab" onclick="switchTab('basic')">Basic</button>
+      <button class="tab-button" id="scientific-tab" onclick="switchTab('scientific')">Scientific</button>
+    </div>
+
+    <input type="text" id="display" class="display" disabled />
+
+    <div id="basic-operations">
+      <div class="row">
+        <button class="button" onclick="clickButton(this)">7</button>
+        <button class="button" onclick="clickButton(this)">8</button>
+        <button class="button" onclick="clickButton(this)">9</button>
+        <button class="button" onclick="clickButton(this)">/</button>
+      </div>
+      <div class="row">
+        <button class="button" onclick="clickButton(this)">4</button>
+        <button class="button" onclick="clickButton(this)">5</button>
+        <button class="button" onclick="clickButton(this)">6</button>
+        <button class="button" onclick="clickButton(this)">*</button>
+      </div>
+      <div class="row">
+        <button class="button" onclick="clickButton(this)">1</button>
+        <button class="button" onclick="clickButton(this)">2</button>
+        <button class="button" onclick="clickButton(this)">3</button>
+        <button class="button" onclick="clickButton(this)">-</button>
+      </div>
+      <div class="row">
+        <button class="button" onclick="clickButton(this)">0</button>
+        <button class="button" onclick="clickButton(this)">.</button>
+        <button class="button" onclick="clickButton(this)">C</button>
+        <button class="button" onclick="clickButton(this)">+</button>
+      </div>
+      <div class="row">
+        <button class="button" style="width: 310px;" onclick="calculate()">=</button>
+      </div>
+    </div>
+
+    <div id="scientific-operations" style="display: none;">
+      <div class="row">
+        <button class="button" onclick="clickButton(this)">sin</button>
+        <button class="button" onclick="clickButton(this)">cos</button>
+        <button class="button" onclick="clickButton(this)">tan</button>
+        <button class="button" onclick="clickButton(this)">log</button>
+      </div>
+      <div class="row">
+        <button class="button" onclick="clickButton(this)">sqrt</button>
+        <button class="button" onclick="clickButton(this)">exp</button>
+        <button class="button" onclick="clickButton(this)">abs</button>
+        <button class="button" onclick="clickButton(this)">1/x</button>
+      </div>
+      <div class="row">
+        <button class="button" onclick="clickButton(this)">e</button>
+        <button class="button" onclick="clickButton(this)">pi</button>
+        <button class="button" onclick="clickButton(this)">(</button>
+        <button class="button" onclick="clickButton(this)">)</button>
+      </div>
+      <div class="row">
+        <button class="button" onclick="clickButton(this)">x^2</button>
+        <button class="button" onclick="clickButton(this)">x^3</button>
+        <button class="button" onclick="clickButton(this)">x^y</button>
+        <button class="button" onclick="clickButton(this)">C</button>
+      </div>
+      <div class="row">
+        <button class="button" style="width: 310px;" onclick="calculate()">=</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const display = document.getElementById("display");
+
+    function switchTab(tab) {
+      document.getElementById("basic-tab").classList.toggle("active", tab === "basic");
+      document.getElementById("scientific-tab").classList.toggle("active", tab === "scientific");
+      document.getElementById("basic-operations").style.display = tab === "basic" ? "block" : "none";
+      document.getElementById("scientific-operations").style.display = tab === "scientific" ? "block" : "none";
+    }
+
+    function clickButton(button) {
+      const value = button.textContent;
+      switch (value) {
+        case "C":
+          display.value = "";
+          break;
+        case "sin":
+          display.value += "Math.sin(";
+          break;
+        case "cos":
+          display.value += "Math.cos(";
+          break;
+        case "tan":
+          display.value += "Math.tan(";
+          break;
+        case "log":
+          display.value += "Math.log10(";
+          break;
+        case "sqrt":
+          display.value += "Math.sqrt(";
+          break;
+        case "exp":
+          display.value += "Math.exp(";
+          break;
+        case "abs":
+          display.value += "Math.abs(";
+          break;
+        case "1/x":
+          display.value += "1/";
+          break;
+        case "e":
+          display.value += "Math.E";
+          break;
+        case "pi":
+          display.value += "Math.PI";
+          break;
+        case "x^2":
+          display.value += "**2";
+          break;
+        case "x^3":
+          display.value += "**3";
+          break;
+        case "x^y":
+          display.value += "**";
+          break;
+        default:
+          display.value += value;
+      }
+    }
+
+    function calculate() {
+      try {
+        display.value = eval(display.value);
+      } catch (e) {
+        alert("Invalid Expression");
+      }
+    }
+  </script>
+</body>
+</html>
